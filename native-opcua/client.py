@@ -1,29 +1,40 @@
 from opcua import Client
+import asyncio
+import time
 
-client = Client("opc.tcp://localhost:4840/freeopcua/server") # Initiate
-
-try :
-    # Connect to Server
-    client.connect()
-
-    # Optional if you already knew node's id
-    root = client.get_root_node() 
-    print(f'Root node is {root}')
-
-    # Read node
-    var = client.get_node("ns=2;i=2") 
-    print(f'Read node is {var}')
+async def runClient(url: str, NodeId: str, **kwargs): 
     
+    client = Client(url) # Initiate
+    try :
+        # Connect to Server
+        client.connect()
 
-    # Print Value
-    print(f'Node : {var}')
-    print(f'Value of node :{var.get_value()}') # Get and print only value of thge node
-    print(f'Full value of node : {var.get_data_value()}') # Get and print full value of the node 
+        root = client.get_root_node()
+        #print("Objects node is: ", root)
+    except Exception as e:
+        print(f'Exception during client session : {e}')
 
-    # Write Value
-    var.set_value(1.3) # Set value into 1.3
-    print(f'New value is : {var.get_value()}') # Get and print full value of the node 
+    finally :
+        # Disconnect when finish
+        client.disconnect()
+        print(f'Client session successfully closed')
 
-finally :
-    # Disconnect when finish
-    client.disconnect()
+
+async def main():
+        
+    # Define the url of the server and the node id to look for
+    url_OpcUa_Server = 'opc.tcp://172.16.200.141:4840'
+    serach_for_NodeId = "ns=3;s='Blocco_dati_1'.'call_me_from_Server'"
+
+    await asyncio.gather(runClient(url_OpcUa_Server, serach_for_NodeId))
+
+
+if __name__ == '__main__':
+
+    import time
+
+    #Start Counting execution time
+    s = time.perf_counter()
+    asyncio.run(main())
+    elapsed = time.perf_counter() - s
+    print(f"{__file__} executed in {elapsed:0.2f} seconds.")
