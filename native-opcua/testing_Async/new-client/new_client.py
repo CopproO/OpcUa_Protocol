@@ -1,6 +1,5 @@
 # Import necessary libraries
 from opcua import Client, ua
-import asyncio
 import time
 
 # Define a function to read an input value from an OPC UA server node
@@ -53,10 +52,10 @@ if __name__ == "__main__":
         print("Objects root node is: ", root)
 
         # Read the value of a node on the server
-        read_input_value('ns=3;s="Blocco_dati_1"."reponce_from_serevr"')
+        read_input_value('ns=3;s="Blocco_dati_1"."call_me_from_Server"')
 
         # Write a boolean value to a node on the server
-        #write_value_bool('ns=3;s="Top_secret"."empty"', True)
+        write_value_bool('ns=3;s="Blocco_dati_1"."call_me_from_Server"', True)
 
     finally:
         # Disconnect from the OPC UA server

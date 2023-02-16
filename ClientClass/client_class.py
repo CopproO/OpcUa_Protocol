@@ -44,8 +44,6 @@ class OPCUAClient:
             raise ValueError("Client is not connected.")
         client_node_value = self.read_input_value()
         print(f"Value of : {str(self.node_id)}' : ' {str(client_node_value)}")
-    def __repr__(self) -> str:
-        return f"{type(self).__name__}(x={self.x}, y={self.y})"
 
 
 opc_url = "opc.tcp://172.16.200.141:4840"
@@ -53,8 +51,6 @@ opc_node = 'ns=3;s="Blocco_dati_1"."call_me_from_Server"'
 
 #ns=3;s="Blocco_dati_1"."reponce_from_serevr"
 client = OPCUAClient(opc_url, opc_node)
-
-client.connect()
 
 try:
     client.connect()
