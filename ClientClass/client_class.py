@@ -19,10 +19,10 @@ class OPCUAClient:
         self.client = Client(self.server_url)
         self.client.connect()
         print(f"Connected to OPC UA server in Url: {self.server_url}")
+        return self.client
         
     
     def disconnect(self):
-
         if self.client is not None:
             self.client.disconnect()
 
@@ -62,6 +62,7 @@ class OPCUAClient:
 
         client_node_value = self.read_input_value()
         print(f"Value of : {str(self.read_node)}' : ' {str(client_node_value)}")
+        return client_node_value
 
 
 def main():
@@ -69,9 +70,7 @@ def main():
 
     # This Variables can be Input by the User 
 
-    url_OpcUa_Server = 'opc.tcp://192.168.0.3:4840'
-    read_NodeId_1 = 'ns=2;i=3'
-    read_NodeId_2 = 'ns=2;i=4'
+    url_OpcUa_Server = 'opc.tcp://192.168.16.200:4840'
 
     new_client = OPCUAClient(url_OpcUa_Server)
 
@@ -80,14 +79,20 @@ def main():
     
     print(f"{__file__} executed in {elapsed:0.2f} seconds.")
 
+    increment = 0
+
     while True:
+        read_NodeId_2 = f'ns=3;s="Data"."Random_Number_Db"' #[{increment}]
         time.sleep(1)
-        new_client.read_node = read_NodeId_1
-        new_client.read_and_print_value()
         new_client.read_node = read_NodeId_2
-        new_client.read_and_print_value()
+        this_data = new_client.read_and_print_value()
+        print(type(this_data))
+        increment +=1
+        if increment > 1:
+            new_client.disconnect()
+            break
 
-
+    print(this_data)
 if __name__ == '__main__':
 
     #Start Counting execution time
