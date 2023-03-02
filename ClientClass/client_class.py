@@ -1,7 +1,7 @@
 from opcua import Client, ua
 import time
 
-# write_NodeId = 'ns=3;s="Data_Exange"."Call_Me_From_Server"'
+#write_NodeId = 'ns=3;s="Data_Exange"."Call_Me_From_Server"'
 
 class OPCUAClient:
     
@@ -69,7 +69,7 @@ def main():
 
     # This Variables can be Input by the User 
 
-    url_OpcUa_Server = 'opc.tcp://localhost:4840/freeopcua/server/'
+    url_OpcUa_Server = 'opc.tcp://192.168.0.3:4840'
     read_NodeId_1 = 'ns=2;i=3'
     read_NodeId_2 = 'ns=2;i=4'
 
